@@ -36,7 +36,7 @@
           <div v-for="(list,index) in Listnames" :key="index">
             <TodoList
                 :listname= list.listname
-                :indexlist = list.index
+                :indexlist = index
                 :arrList = Listnames
                 :updatearr = restore
             />

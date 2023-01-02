@@ -1,8 +1,8 @@
 <template>
   <div class="col-3 list-column list-width">
       <div class="heading" style="background-color: rgb(96, 125, 139);">
-        <h4 class="heading-text">{{ nameoflist }}</h4>
-        <details class="detail-dropdown" style="position: absolute; top: 38px;right: 20px;">
+        <h4 class="heading-text">{{ listname }}</h4>
+        <details class="detail-dropdown" style="position: absolute; top: 38px;right: 20px;" >
           <summary>...</summary>
           <div class="dropdown-content">
             <label class="content-item">
@@ -13,7 +13,7 @@
                 <div>
                   <form @submit.prevent>
                     <h4>Edit List Name</h4>
-                    <input required name="listName" v-model="newname" type="text" placeholder="Enter your list name" class="form-control my-1">
+                    <input required name="listName" v-model="nameoflist" type="text" placeholder="Enter your list name" class="form-control my-1">
                     <small class="text-danger" style="display: block;"></small>
                     <button class="btn btn-sm btn-app mt-2" @click="editname()"> Save List </button>
                     <button class="btn btn-sm btn-app mt-2" @click="canceleditname()"> Cancel List </button>
@@ -29,7 +29,7 @@
                 <div>
                     <h4>Delete List</h4>
                     <p><b>WARN: This list : {{nameoflist}} will be deleted.</b></p>
-                    <button class="btn btn-sm btn-app mt-2" @click="deletename(indexlist)"> Delete List </button>
+                    <button class="btn btn-sm btn-app mt-2" @click="deletename()"> Delete List </button>
                 </div>
               </details>
             </label>
@@ -107,9 +107,9 @@ export default {
       textdesc: [],
       checked: this.defaultChecked,
       listoftodo: this.arrList,
-      nameoflist:this.listname,
-      newname:String,
-      arcname :this.updatearr
+      nameoflist: this.listname,
+      arcname :this.updatearr,
+
     }
   },
   props: {
@@ -123,20 +123,22 @@ export default {
   },
   methods: {
     editname(){
-      this.nameoflist = ''
-      this.nameoflist =this.newname
+
+      // console.log(this.nameoflist)
+      this.listoftodo.splice(this.indexlist , 1 , this.nameoflist)
+      // console.log(this.listoftodo[this.indexlist])
+
     },
     canceleditname(){
-
+       this.nameoflist = this.listname;
     },
-    archievelist(idx){
+    archievelist(){
       this.arcname.push(this.nameoflist);
-      this.listoftodo.splice(idx,1)
+      this.listoftodo.splice(this.indexlist , 1)
 
     },
-    deletename(idx){
-      this.listoftodo.splice(idx,1);
-
+    deletename(){
+      this.listoftodo.splice(this.indexlist , 1);
     },
     deleteItem(tx,index){
         this.textdesc.splice(index,1);
