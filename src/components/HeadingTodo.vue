@@ -1,20 +1,35 @@
 <template>
   <main>
     <nav>
-      <h2>Task Management</h2>
-      <details class="popup" style="">
-        <summary>
-          <span class="nav-item btn btn-sm btn-app mr-2">+ New List</span>
-        </summary>
-        <div>
-          <form @submit.prevent>
-            <h4>Create new list</h4>
-            <input required name="listName" v-model="listname" type="text" data-vv-as="List Name" placeholder="Enter your list name" class="form-control my-1" aria-required="true" aria-invalid="false">
-            <small class="text-danger" style="display: block;"></small>
-            <button class="btn btn-sm btn-app mt-2" @click="addList"> Save List </button>
-          </form>
-        </div>
-      </details>
+      <h2>Kanban Board</h2>
+      <div>
+        <details class="popup" style="">
+          <summary>
+            <span class="nav-item btn btn-sm btn-app mr-2">Archieved List</span>
+          </summary>
+          <div>
+            <h4>Archieved List</h4>
+            <ul v-for="(name,index) in restore" :key="index" >
+              <li>{{index}}  {{name}}
+                <button class="btn btn-sm btn-app mt-2" @click="restorelist(name,index)"> Restore List </button>
+              </li>
+            </ul>
+          </div>
+        </details>
+        <details class="popup" style="">
+          <summary>
+            <span class="nav-item btn btn-sm btn-app mr-2">+ New List</span>
+          </summary>
+          <div>
+            <form @submit.prevent>
+              <h4>Create new list</h4>
+              <input required name="listName" v-model="listname" type="text" data-vv-as="List Name" placeholder="Enter your list name" class="form-control my-1" aria-required="true" aria-invalid="false">
+              <small class="text-danger" style="display: block;"></small>
+              <button class="btn btn-sm btn-app mt-2" @click="addList"> Save List </button>
+            </form>
+          </div>
+        </details>
+      </div>
     </nav>
     <div class="scrolling-wrapper">
       <div class="row flex-nowrap mt-1">
@@ -23,6 +38,7 @@
                 :listname= list.listname
                 :indexlist = list.index
                 :arrList = Listnames
+                :updatearr = restore
             />
           </div>
       </div>
@@ -42,6 +58,7 @@ export default {
     return{
       listname:null,
       Listnames:[],
+      restore:[],
     }
   },
   methods:{
@@ -50,7 +67,14 @@ export default {
         this.Listnames.push({listname: this.listname})
         this.listname= null;
       }
-    }
+    },
+    restorelist(name,index){
+      console.log(this.restore)
+      console.log(name)
+      this.Listnames.push({listname : name})
+      this.restore.splice(index,1)
+    },
+
   }
 }
 
@@ -63,7 +87,7 @@ details.popup summary {
   display: inline-block;
 }
 .btn:not(:disabled):not(.disabled) {
-  cursor: pointer;
+  cursor: grab;
 }
 details.popup div {
   position: fixed;
@@ -141,6 +165,26 @@ h2{
 }
 details {
   display: block;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap !important;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+.scrolling-wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+h4, h5 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
 }
 
 </style>

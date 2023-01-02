@@ -13,7 +13,7 @@
                 <div>
                   <form @submit.prevent>
                     <h4>Edit List Name</h4>
-                    <input required name="listName" v-model="newname" type="text" data-vv-as="List Name" placeholder="Enter your list name" class="form-control my-1" aria-required="true" aria-invalid="false">
+                    <input required name="listName" v-model="newname" type="text" placeholder="Enter your list name" class="form-control my-1">
                     <small class="text-danger" style="display: block;"></small>
                     <button class="btn btn-sm btn-app mt-2" @click="editname()"> Save List </button>
                     <button class="btn btn-sm btn-app mt-2" @click="canceleditname()"> Cancel List </button>
@@ -22,16 +22,26 @@
               </details>
             </label>
             <label class="content-item">
-              <details class="popup" style="">
+              <details class="popup">
                 <summary>
                   <span class="nav-item btn btn-sm btn-app mr-2">Delete</span>
                 </summary>
                 <div>
-                  <form @submit.prevent>
                     <h4>Delete List</h4>
                     <p><b>WARN: This list : {{nameoflist}} will be deleted.</b></p>
                     <button class="btn btn-sm btn-app mt-2" @click="deletename(indexlist)"> Delete List </button>
-                  </form>
+                </div>
+              </details>
+            </label>
+            <label class="content-item">
+              <details class="popup">
+                <summary>
+                  <span class="nav-item btn btn-sm btn-app mr-2">Archieve</span>
+                </summary>
+                <div>
+                    <h4>Archieve List</h4>
+                    <p><b>WARN: This list : {{nameoflist}} will be Archieved but you can Restore.</b></p>
+                    <button class="btn btn-sm btn-app mt-2" @click="archievelist(indexlist)"> Archieve List </button>
                 </div>
               </details>
             </label>
@@ -99,12 +109,14 @@ export default {
       listoftodo: this.arrList,
       nameoflist:this.listname,
       newname:String,
+      arcname :this.updatearr
     }
   },
   props: {
     listname: String,
     indexlist: Number,
     arrList: Array,
+    updatearr:Array,
     defaultChecked: {
       type: Boolean, default: true
     }
@@ -117,13 +129,18 @@ export default {
     canceleditname(){
 
     },
+    archievelist(idx){
+      this.arcname.push(this.nameoflist);
+      this.listoftodo.splice(idx,1)
+
+    },
     deletename(idx){
       this.listoftodo.splice(idx,1);
 
     },
     deleteItem(tx,index){
         this.textdesc.splice(index,1);
-        tx.checked = !tx.checked
+        tx.checked = !tx.checked;
     },
     onchange(tx) {
       tx.checked = !tx.checked
@@ -134,8 +151,8 @@ export default {
       tx.checked =!tx.checked
     },
     cancelonchange(tx) {
-      tx.checked = !tx.checked
       tx.newtext = tx.text
+      tx.checked = !tx.checked
     },
     changevaluekey() {
       this.valuekey = !this.valuekey;
@@ -154,20 +171,6 @@ export default {
 <style>
 .mt-1, .my-1 {
   margin-top: 0.25rem !important;
-}
-.flex-nowrap {
-  flex-wrap: nowrap !important;
-}
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
-}
-.scrolling-wrapper {
-  overflow-x: scroll;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
 }
 .heading {
   padding: 15px 0 5px 0;
