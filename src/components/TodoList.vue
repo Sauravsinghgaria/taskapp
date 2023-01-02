@@ -1,95 +1,104 @@
 <template>
   <div class="col-3 list-column list-width">
-    <div class="heading" style="background-color: rgb(96, 125, 139);">
-      <h4 class="heading-text">{{indexlist}} {{ listname }}</h4>
-      <details class="detail-dropdown" style="position: absolute; top: 38px;right: 20px;">
-        <summary>...</summary>
-        <div class="dropdown-content">
-          <label class="content-item">
-            <details class="popup">
-              <summary>
-                <span class="nav-item btn btn-sm btn-app mr-2">Edit</span>
-              </summary>
-              <div>
-                <form @submit.prevent>
-                  <h4>Edit List Name</h4>
-                  <input required name="listName" v-model="nameoflist" type="text" data-vv-as="List Name" placeholder="Enter your list name" class="form-control my-1" aria-required="true" aria-invalid="false">
-                  <small class="text-danger" style="display: block;"></small>
-                  <button class="btn btn-sm btn-app mt-2" @click="editname(indexlist,nameoflist)"> Save List </button>
-                  <button class="btn btn-sm btn-app mt-2" @click="editname"> Cancel List </button>
-                </form>
+      <div class="heading" style="background-color: rgb(96, 125, 139);">
+        <h4 class="heading-text">{{ nameoflist }}</h4>
+        <details class="detail-dropdown" style="position: absolute; top: 38px;right: 20px;">
+          <summary>...</summary>
+          <div class="dropdown-content">
+            <label class="content-item">
+              <details class="popup">
+                <summary>
+                  <span class="nav-item btn btn-sm btn-app mr-2">Edit</span>
+                </summary>
+                <div>
+                  <form @submit.prevent>
+                    <h4>Edit List Name</h4>
+                    <input required name="listName" v-model="newname" type="text" data-vv-as="List Name" placeholder="Enter your list name" class="form-control my-1" aria-required="true" aria-invalid="false">
+                    <small class="text-danger" style="display: block;"></small>
+                    <button class="btn btn-sm btn-app mt-2" @click="editname()"> Save List </button>
+                    <button class="btn btn-sm btn-app mt-2" @click="canceleditname()"> Cancel List </button>
+                  </form>
+                </div>
+              </details>
+            </label>
+            <label class="content-item">
+              <details class="popup" style="">
+                <summary>
+                  <span class="nav-item btn btn-sm btn-app mr-2">Delete</span>
+                </summary>
+                <div>
+                  <form @submit.prevent>
+                    <h4>Delete List</h4>
+                    <p><b>WARN: This list : {{nameoflist}} will be deleted.</b></p>
+                    <button class="btn btn-sm btn-app mt-2" @click="deletename(indexlist)"> Delete List </button>
+                  </form>
+                </div>
+              </details>
+            </label>
+          </div>
+        </details>
+      </div>
+      <div class="cards cards-list">
+        <draggable group="my-group">
+          <div v-for="(tx,index) in textdesc" :key="index">
+            <div class="card tasklist-item">
+              <div class="card-body">
+                <div class="text-dark disable-select">
+                  <div v-if="tx.checked" @click="onchange(tx)">
+                    <span >{{ tx.text }} </span>
+                  </div>
+                  <div v-else-if="!tx.checked">
+                    <form @submit.prevent>
+                      <textarea placeholder="Your item description" style="width:250px; height:75px;"
+                                v-model="tx.newtext"></textarea>
+                      <button @click="editonchange(tx)">Save</button>
+                      <button @click="cancelonchange(tx)">Cancel</button>
+                      <button @click="deleteItem(tx,index)" style="color: red; margin-right: 10px;">Delete</button>
+                    </form>
+                  </div>
+                </div>
               </div>
-            </details>
-          </label>
-          <label class="content-item">
-            <details class="popup" style="">
-              <summary>
-                <span class="nav-item btn btn-sm btn-app mr-2">Delete</span>
-              </summary>
-              <div>
-                <form @submit.prevent>
-                  <h4>Delete List</h4>
-                  <p><b>WARN: This list will be deleted.</b></p>
-                  <button class="btn btn-sm btn-app mt-2" @click="deletename(indexlist)"> Delete List </button>
-                </form>
-              </div>
-            </details>
-          </label>
-        </div>
-      </details>
-    </div>
-    <div class="cards cards-list">
-      <div v-for="(tx,index) in textdesc" :key="index">
-        <div class="card tasklist-item">
+            </div>
+          </div>
+        </draggable>
+
+        <div class="card tasklist-item fixed-card">
           <div class="card-body">
-            <div class="text-dark disable-select">
-              <div v-if="tx.checked">
-                <span @click="onchange(tx)">{{ tx.text }} </span>
+            <div class="text-center text-dark font-weight-bold disable-select">
+              <div v-if="valuekey">
+                <span @click="changevaluekey()"> + New Item </span>
               </div>
-              <div v-else-if="!tx.checked">
+              <div v-else>
                 <form @submit.prevent>
-                  <textarea placeholder="Your item description" required style="width:250px; height:75px;"
-                            v-model="tx.text"></textarea>
-                  <button @click="onchange(tx)">Save</button>
-                  <button @click="onchange(tx)">Cancel</button>
-                  <button @click="deleteItem(tx,index)" style="color: red; margin-right: 10px;">Delete</button>
+                  <textarea placeholder="Your item description" v-model="text" required
+                            style="width:250px; height:75px;"></textarea>
+                  <button @click="addtask()">Save</button>
+                  <button @click="changevaluekey()">Cancel</button>
                 </form>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="card tasklist-item fixed-card">
-        <div class="card-body">
-          <div class="text-center text-dark font-weight-bold disable-select">
-            <div v-if="valuekey">
-              <span @click="changevaluekey()"> + New Item </span>
-            </div>
-            <div v-else>
-              <form @submit.prevent>
-                <textarea placeholder="Your item description" v-model="text" required
-                          style="width:250px; height:75px;"></textarea>
-                <button @click="addtask()">Save</button>
-                <button @click="changevaluekey()">Cancel</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 <script>
+import draggable from "vuedraggable";
 export default {
+  components:{
+    draggable
+  },
   name: 'TodoList',
   data() {
     return {
+      newtext:this.text,
       valuekey: true,
       text: null,
       textdesc: [],
       checked: this.defaultChecked,
       listoftodo: this.arrList,
       nameoflist:this.listname,
+      newname:String,
     }
   },
   props: {
@@ -101,21 +110,32 @@ export default {
     }
   },
   methods: {
-    editname(idx,name){
-      // this.listoftodo.splice(idx,1,name)
-      this.listoftodo[idx] = name
-      console.log(this.listoftodo[idx])
-      console.log(name)
+    editname(){
+      this.nameoflist = ''
+      this.nameoflist =this.newname
+    },
+    canceleditname(){
+
     },
     deletename(idx){
-      this.listoftodo.splice(idx,1)
+      this.listoftodo.splice(idx,1);
+
     },
-    deleteItem(tx,index) {
+    deleteItem(tx,index){
         this.textdesc.splice(index,1);
         tx.checked = !tx.checked
     },
     onchange(tx) {
       tx.checked = !tx.checked
+    },
+    editonchange(tx){
+      tx.text = ""
+      tx.text = tx.newtext
+      tx.checked =!tx.checked
+    },
+    cancelonchange(tx) {
+      tx.checked = !tx.checked
+      tx.newtext = tx.text
     },
     changevaluekey() {
       this.valuekey = !this.valuekey;
