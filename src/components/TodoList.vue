@@ -102,7 +102,10 @@ export default {
   },
   methods: {
     editname(idx,name){
-      this.listoftodo.splice(idx,1,name)
+      // this.listoftodo.splice(idx,1,name)
+      this.listoftodo[idx] = name
+      console.log(this.listoftodo[idx])
+      console.log(name)
     },
     deletename(idx){
       this.listoftodo.splice(idx,1)
