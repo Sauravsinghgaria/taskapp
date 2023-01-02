@@ -18,9 +18,13 @@
     </nav>
     <div class="scrolling-wrapper">
       <div class="row flex-nowrap mt-1">
-        <div v-for="(list,index) in Listnames" :key="index">
-          <TodoList :listname= list.listname />
-        </div>
+          <div v-for="(list,index) in Listnames" :key="index">
+            <TodoList
+                :listname= list.listname
+                :indexlist = index
+                :arrList = Listnames
+            />
+          </div>
       </div>
     </div>
   </main>
@@ -31,7 +35,9 @@ import TodoList from "@/components/TodoList.vue";
 
 export default {
   name:'HeadingTodo',
-  components: {TodoList},
+  components: {TodoList,
+
+  },
   data(){
     return{
       listname:null,
