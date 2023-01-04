@@ -9,9 +9,10 @@
           </summary>
           <div>
             <h4>Archieved List</h4>
-            <ul v-for="(name,index) in restore" :key="index" >
-              <li>{{index}}  {{name}}
-                <button class="btn btn-sm btn-app mt-2" @click="restorelist(name,index)"> Restore List </button>
+            <ul class="mb-2 list-group">
+              <li  v-for="(name,index) in restore" :key="index" class="list-group-item d-flex justify-content-between align-items-center">
+                <p>{{name}}</p>
+                <button class="btn btn-sm btn-app mt-2" style="color: #fff!important; background-color: #218838!important; border-color: #1e7e34!important;" @click="restorelist(name,index)"> Restore List </button>
               </li>
             </ul>
           </div>
@@ -35,7 +36,7 @@
       <div class="row flex-nowrap mt-1">
           <div v-for="(list,index) in Listnames" :key="index" class="col-3 list-column list-width">
             <TodoList
-                :listname= list
+                :listname= list.listname
                 :indexlist = index
                 :arrList = Listnames
                 :updatearr = restore
@@ -58,25 +59,24 @@ export default {
     return{
       listname:null,
       Listnames:[
-          "To Do",
-          "On progress",
-          "Doing",
-          "Done",
+        {listname:"Todo"},
+        {listname:"Done"},
+        {listname:"Doing"},
+        {listname:"Deploy"},
       ],
       restore:[],
-
     }
   },
   methods:{
     addList(){
       if(this.listname!=null && this.listname.trim().length !== 0){
-        this.Listnames.push(this.listname)
-        this.listname= null;
-        this.myCondition = !this.myCondition
+        this.Listnames.push({listname: this.listname})
+        this.listname= "";
       }
+      console.log(this.Listnames[0].listname)
     },
     restorelist(name,index){
-      this.Listnames.push(name)
+      this.Listnames.push({listname: name})
       this.restore.splice(index,1)
 
     },
@@ -87,6 +87,45 @@ export default {
 
 </script>
 <style>
+.mb-2 {
+  margin-bottom: 0.5rem!important;
+}
+
+.list-group {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
+  border-radius: 0.25rem;
+}
+.list-group-item:first-child {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
+.align-items-center {
+  align-items: center!important;
+}
+.justify-content-between {
+  justify-content: space-between!important;
+}
+.d-flex {
+  display: flex!important;
+}
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 0.75rem 1.25rem;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,.125);
+}
+*, :after, :before {
+  box-sizing: border-box;
+}
+li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+}
 details.popup summary {
   outline: none;
   cursor: pointer;
@@ -160,7 +199,7 @@ button{
 }
 h2{
   margin-left: 30px;
-  font-family: Arial;
+  font-family: Gugi, cursive;
   font-weight: bold;
 }
 .btn-sm {
@@ -190,9 +229,8 @@ details {
 }
 h4, h5 {
   margin-bottom: 0.5rem;
-  font-weight: 550;
+  font-weight: 350;
   line-height: 1.2;
-  font-size: larger;
 }
 input {
   width: 550px;

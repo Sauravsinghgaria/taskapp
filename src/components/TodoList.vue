@@ -8,7 +8,7 @@
             <label class="content-item">
               <details class="popup">
                 <summary>
-                  <span class="nav-item btn btn-sm btn-app mr-2">Edit</span>
+                  <span class="nav-item btn heading btn-sm btn-app mr-2">Edit</span>
                 </summary>
                 <div>
                   <form @submit.prevent>
@@ -22,7 +22,7 @@
             <label class="content-item">
               <details class="popup">
                 <summary>
-                  <span class="nav-item btn btn-sm btn-app mr-2">Delete</span>
+                  <span class="nav-item heading btn btn-sm btn-app mr-2">Delete</span>
                 </summary>
                 <div>
                     <h4>Delete List</h4>
@@ -34,12 +34,12 @@
             <label class="content-item">
               <details class="popup">
                 <summary>
-                  <span class="nav-item btn btn-sm btn-app mr-2">Archieve</span>
+                  <span class="nav-item  heading btn btn-sm btn-app mr-2">Archieve</span>
                 </summary>
                 <div>
                     <h4>Archieve List</h4>
                     <p><b>WARN: This list : {{listname}} will be Archieved but you can Restore.</b></p>
-                    <button class="btn btn-sm btn-app mt-2" @click="archievelist(indexlist)"> Archieve List </button>
+                    <button class="btn btn-sm btn-app mt-2 " @click="archievelist(indexlist)"> Archieve List </button>
                 </div>
               </details>
             </label>
@@ -70,7 +70,7 @@
         <div class="card fixed-tasklist-item fixed-card" >
           <div class="card-body" >
             <div class="text-center text-dark font-weight-bold disable-select">
-              <div v-if="valuekey" @click="changevaluekey()">
+              <div v-if="valuekey" @click="changevaluekey()" class="item">
                 <span> + New Item </span>
               </div>
               <div v-else>
@@ -101,7 +101,6 @@ export default {
       text: String,
       textdesc: [],
       checked: this.defaultChecked,
-
       listoftodo: this.arrList,
       nameoflist: this.listname,
       arcname :this.updatearr,
@@ -130,14 +129,15 @@ export default {
     deletename(){
       this.listoftodo.splice(this.indexlist , 1);
     },
+    onchange(tx) {
+      tx.checked = !tx.checked
+    },
     deleteItem(tx,index){
         this.textdesc.splice(index,1);
         tx.checked = !tx.checked;
     },
-    onchange(tx) {
-      tx.checked = !tx.checked
-    },
     editonchange(tx){
+
       tx.text = ""
       tx.text = tx.newtext
       tx.checked =!tx.checked
@@ -156,11 +156,16 @@ export default {
         this.text = '';
         this.valuekey = !this.valuekey;
       }
+      console.log(this.textdesc[this.indexlist].text)
     }
   }
 }
 </script>
 <style>
+.item{
+  text-align: center;
+  font-weight: 550;
+}
 button {
   margin-right: 1rem;
   padding: 5px 14px;
@@ -192,6 +197,7 @@ button {
   margin-top: 0.25rem !important;
 }
 .heading {
+  color: #607d8b;
   padding: 15px 0 5px 0;
   color: hsla(0, 0%, 100%, .8);
   font-family: Gugi, cursive;
@@ -213,7 +219,7 @@ label {
 }
 .heading-text {
   padding: 10px;
-  font-family: Arial;
+  font-family: Gugi,cursive;
   text-align: center;
   margin: 0;
   font-size: 1.4rem!important;
@@ -250,8 +256,9 @@ details.detail-dropdown div.dropdown-content {
 }
 h4, h5 {
   margin-bottom: 0.5rem;
-  font-weight: 500;
+  font-weight: 300;
   line-height: 1.2;
+  text-transform: uppercase;
 }
 .cards-list {
   min-height: 300px;
