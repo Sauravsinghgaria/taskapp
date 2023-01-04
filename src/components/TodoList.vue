@@ -1,8 +1,8 @@
 <template>
   <div class="col-3 list-column list-width">
       <div class="heading" style="background-color: rgb(96, 125, 139);">
-        <h4 class="heading-text">{{ listname }}</h4>
-        <details class="detail-dropdown" style="position: absolute; top: 38px;right: 20px;" >
+        <h4 class="heading-text">{{listname}}</h4>
+        <details class="detail-dropdown" style="position: absolute; top: 38px;right: 20px;" :open="myCondition">
           <summary>...</summary>
           <div class="dropdown-content">
             <label class="content-item">
@@ -13,7 +13,7 @@
                 <div>
                   <form @submit.prevent>
                     <h4>Edit List Name</h4>
-                    <input required name="listName" v-model="nameoflist" type="text" placeholder="Enter your list name" class="form-control my-1">
+                    <input required name="listName" v-model="editnames" type="text" placeholder="Enter your list name" class="form-control my-1">
                     <small class="text-danger" style="display: block;"></small>
                     <button class="btn btn-sm btn-app mt-2" @click="editname()"> Save List </button>
                     <button class="btn btn-sm btn-app mt-2" @click="canceleditname()"> Cancel List </button>
@@ -71,7 +71,6 @@
             </div>
           </div>
         </draggable>
-
         <div class="card tasklist-item fixed-card">
           <div class="card-body">
             <div class="text-center text-dark font-weight-bold disable-select">
@@ -101,9 +100,11 @@ export default {
   name: 'TodoList',
   data() {
     return {
+      myCondition:false,
       newtext:this.text,
       valuekey: true,
       text: null,
+      editnames:String,
       textdesc: [],
       checked: this.defaultChecked,
       listoftodo: this.arrList,
@@ -123,14 +124,11 @@ export default {
   },
   methods: {
     editname(){
-
-      // console.log(this.nameoflist)
-      this.listoftodo.splice(this.indexlist , 1 , this.nameoflist)
-      // console.log(this.listoftodo[this.indexlist])
+      this.nameoflist = this.editnames
 
     },
     canceleditname(){
-       this.nameoflist = this.listname;
+
     },
     archievelist(){
       this.arcname.push(this.nameoflist);

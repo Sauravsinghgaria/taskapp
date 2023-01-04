@@ -3,7 +3,7 @@
     <nav>
       <h2>Kanban Board</h2>
       <div>
-        <details class="popup" style="">
+        <details class="popup" style="" >
           <summary>
             <span class="nav-item btn btn-sm btn-app mr-2">Archieved List</span>
           </summary>
@@ -16,16 +16,16 @@
             </ul>
           </div>
         </details>
-        <details class="popup" style="">
+        <details class="popup" style="" :open="myCondition ? 'true':'false or null'">
           <summary>
-            <span class="nav-item btn btn-sm btn-app mr-2">+ New List</span>
+            <span class="nav-item btn btn-sm btn-app mr-2" @click=!this.myCondition>+ New List</span>
           </summary>
           <div>
             <form @submit.prevent>
               <h4>Create new list</h4>
               <input required name="listName" v-model="listname" type="text" data-vv-as="List Name" placeholder="Enter your list name" class="form-control my-1" aria-required="true" aria-invalid="false">
               <small class="text-danger" style="display: block;"></small>
-              <button class="btn btn-sm btn-app mt-2" @click="addList"> Save List </button>
+              <button class="btn btn-sm btn-app mt-2" @click="addList()"> Save List </button>
             </form>
           </div>
         </details>
@@ -59,6 +59,7 @@ export default {
       listname:null,
       Listnames:[],
       restore:[],
+      myCondition:false,
     }
   },
   methods:{
@@ -66,13 +67,15 @@ export default {
       if(this.listname!=null && this.listname.trim().length !== 0){
         this.Listnames.push({listname: this.listname})
         this.listname= null;
+        this.myCondition = !this.myCondition
       }
     },
     restorelist(name,index){
-      console.log(this.restore)
-      console.log(name)
       this.Listnames.push({listname : name})
       this.restore.splice(index,1)
+      this.myCondition = !this.myCondition
+
+
     },
 
   }
