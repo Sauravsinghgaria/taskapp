@@ -2,7 +2,7 @@
   <div class="list-column list-width">
       <div class="heading" style="background-color: rgb(96, 125, 139);">
         <h4 class="heading-text">{{listname}}</h4>
-        <details class="detail-dropdown" style="position: absolute; top: 38px;right: 20px;" :open="myCondition">
+        <details class="detail-dropdown" style="position: absolute;top: 20px;right: 15px;font-size: 1.2rem;" >
           <summary>...</summary>
           <div class="dropdown-content">
             <label class="content-item">
@@ -13,10 +13,8 @@
                 <div>
                   <form @submit.prevent>
                     <h4>Edit List Name</h4>
-                    <input required name="listName" v-model="editnames" type="text" placeholder="Enter your list name" class="form-control my-1">
-                    <small class="text-danger" style="display: block;"></small>
+                    <input required name="listName" v-model="nameoflist" type="text" placeholder="Enter your list name" class="form-control my-1">
                     <button class="btn btn-sm btn-app mt-2" @click="editname()"> Save List </button>
-                    <button class="btn btn-sm btn-app mt-2" @click="canceleditname()"> Cancel List </button>
                   </form>
                 </div>
               </details>
@@ -28,7 +26,7 @@
                 </summary>
                 <div>
                     <h4>Delete List</h4>
-                    <p><b>WARN: This list : {{nameoflist}} will be deleted.</b></p>
+                    <p><b>WARN: This list : {{listname}} will be deleted.</b></p>
                     <button class="btn btn-sm btn-app mt-2" @click="deletename()"> Delete List </button>
                 </div>
               </details>
@@ -40,7 +38,7 @@
                 </summary>
                 <div>
                     <h4>Archieve List</h4>
-                    <p><b>WARN: This list : {{nameoflist}} will be Archieved but you can Restore.</b></p>
+                    <p><b>WARN: This list : {{listname}} will be Archieved but you can Restore.</b></p>
                     <button class="btn btn-sm btn-app mt-2" @click="archievelist(indexlist)"> Archieve List </button>
                 </div>
               </details>
@@ -50,8 +48,7 @@
       </div>
       <div class="cards cards-list">
         <draggable group="my-group">
-          <div v-for="(tx,index) in textdesc" :key="index">
-            <div class="card tasklist-item">
+            <div class="card tasklist-item" v-for="(tx,index) in textdesc" :key="index">
               <div class="card-body">
                 <div class="text-dark disable-select">
                   <div v-if="tx.checked" @click="onchange(tx)">
@@ -69,13 +66,12 @@
                 </div>
               </div>
             </div>
-          </div>
-        </draggable>
-        <div class="card tasklist-item fixed-card">
-          <div class="card-body">
+          </draggable>
+        <div class="card fixed-tasklist-item fixed-card" >
+          <div class="card-body" >
             <div class="text-center text-dark font-weight-bold disable-select">
-              <div v-if="valuekey">
-                <span @click="changevaluekey()"> + New Item </span>
+              <div v-if="valuekey" @click="changevaluekey()">
+                <span> + New Item </span>
               </div>
               <div v-else>
                 <form @submit.prevent>
@@ -100,17 +96,15 @@ export default {
   name: 'TodoList',
   data() {
     return {
-      myCondition:false,
       newtext:this.text,
       valuekey: true,
-      text: null,
-      editnames:String,
+      text: String,
       textdesc: [],
       checked: this.defaultChecked,
+
       listoftodo: this.arrList,
       nameoflist: this.listname,
       arcname :this.updatearr,
-
     }
   },
   props: {
@@ -124,16 +118,14 @@ export default {
   },
   methods: {
     editname(){
-      this.nameoflist = this.editnames
-
-    },
-    canceleditname(){
+      // console.log(this.arrList)
+      this.listoftodo.splice(this.indexlist, 1, this.nameoflist)
+      // console.log(this.arrList)
 
     },
     archievelist(){
-      this.arcname.push(this.nameoflist);
+      this.arcname.push(this.listname);
       this.listoftodo.splice(this.indexlist , 1)
-
     },
     deletename(){
       this.listoftodo.splice(this.indexlist , 1);
@@ -208,14 +200,7 @@ button {
   text-transform: uppercase;
   cursor: grab;
 }
-.heading-text {
-  display: block;
-  margin-block-start: 1.33em;
-  margin-block-end: 1.33em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  font-weight: bold;
-}
+
 details.detail-dropdown div.dropdown-content label.content-item {
   width: 100%;
 }
@@ -230,6 +215,8 @@ label {
   padding: 10px;
   font-family: Arial;
   text-align: center;
+  margin: 0;
+  font-size: 1.4rem!important;
 }
 details {
   display: inline-block;
@@ -279,6 +266,12 @@ h4, h5 {
   font-size: 14px;
   background-color: hsla(0, 0%, 100%, .85);
   cursor: grab;
+  border-radius: 5px;
+}
+.fixed-tasklist-item {
+  min-height: 50px;
+  font-size: 14px;
+  background-color: hsla(0, 0%, 100%, .85);
   border-radius: 5px;
 }
 .card-body {

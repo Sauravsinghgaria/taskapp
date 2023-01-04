@@ -17,10 +17,10 @@
           </div>
         </details>
         <details class="popup" >
-          <summary>
+          <summary slot>
             <span class="nav-item btn btn-sm btn-app mr-2">+ New List</span>
           </summary>
-          <div>
+          <div slot>
             <form @submit.prevent>
               <h4>Create new list</h4>
               <input required name="listName" v-model="listname" type="text" data-vv-as="List Name" placeholder="Enter your list name" class="form-control my-1" aria-required="true" aria-invalid="false">
@@ -35,7 +35,7 @@
       <div class="row flex-nowrap mt-1">
           <div v-for="(list,index) in Listnames" :key="index" class="col-3 list-column list-width">
             <TodoList
-                :listname= list.listname
+                :listname= list
                 :indexlist = index
                 :arrList = Listnames
                 :updatearr = restore
@@ -57,7 +57,12 @@ export default {
   data(){
     return{
       listname:null,
-      Listnames:[],
+      Listnames:[
+          "To Do",
+          "On progress",
+          "Doing",
+          "Done",
+      ],
       restore:[],
 
     }
@@ -65,16 +70,14 @@ export default {
   methods:{
     addList(){
       if(this.listname!=null && this.listname.trim().length !== 0){
-        this.Listnames.push({listname: this.listname})
+        this.Listnames.push(this.listname)
         this.listname= null;
         this.myCondition = !this.myCondition
       }
     },
     restorelist(name,index){
-      this.Listnames.push({listname : name})
+      this.Listnames.push(name)
       this.restore.splice(index,1)
-      this.myCondition = !this.myCondition
-
 
     },
 
