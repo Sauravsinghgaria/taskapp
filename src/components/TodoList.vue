@@ -1,5 +1,5 @@
 <template>
-  <div class="col-3 list-column list-width">
+  <div class="list-column list-width">
       <div class="heading" style="background-color: rgb(96, 125, 139);">
         <h4 class="heading-text">{{listname}}</h4>
         <details class="detail-dropdown" style="position: absolute; top: 38px;right: 20px;" :open="myCondition">
@@ -60,7 +60,7 @@
                   <div v-else-if="!tx.checked">
                     <form @submit.prevent>
                       <textarea placeholder="Your item description" style="width:250px; height:75px;"
-                                v-model="tx.newtext"></textarea>
+                                v-model="tx.newtext" class="fixed-card"></textarea>
                       <button @click="editonchange(tx)">Save</button>
                       <button @click="cancelonchange(tx)">Cancel</button>
                       <button @click="deleteItem(tx,index)" style="color: red; margin-right: 10px;">Delete</button>
@@ -80,7 +80,7 @@
               <div v-else>
                 <form @submit.prevent>
                   <textarea placeholder="Your item description" v-model="text" required
-                            style="width:250px; height:75px;"></textarea>
+                            style="width:250px; height:75px;" class="fixed-card"></textarea>
                   <button @click="addtask()">Save</button>
                   <button @click="changevaluekey()">Cancel</button>
                 </form>
@@ -169,6 +169,33 @@ export default {
 }
 </script>
 <style>
+button {
+  margin-right: 1rem;
+  padding: 5px 14px;
+  border: 1px solid black;
+  border-radius: 3px;
+  box-sizing: border-box;
+  background-color: white;
+}
+.fixed-card {
+  cursor: pointer;
+  color: #3e3939;
+  border: 1px dotted #ccc;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 0.25rem;
+}
 .mt-1, .my-1 {
   margin-top: 0.25rem !important;
 }
@@ -221,10 +248,6 @@ details.detail-dropdown summary {
   padding: 0 !important;
   margin: 0 15px;
 }
-.col-3 {
-  flex: 0 0 25%;
-  max-width: 25%;
-}
 details.detail-dropdown div.dropdown-content {
   color: #607d8b;
   position: absolute;
@@ -253,9 +276,10 @@ h4, h5 {
 .tasklist-item {
   min-height: 50px;
   border-bottom: 0.01rem solid rgba(0, 0, 0, .9);
-  font-size: 13px;
+  font-size: 14px;
   background-color: hsla(0, 0%, 100%, .85);
   cursor: grab;
+  border-radius: 5px;
 }
 .card-body {
   padding: 1rem !important;

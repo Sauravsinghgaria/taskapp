@@ -2,7 +2,7 @@
   <main>
     <nav>
       <h2>Kanban Board</h2>
-      <div>
+      <div >
         <details class="popup" style="" >
           <summary>
             <span class="nav-item btn btn-sm btn-app mr-2">Archieved List</span>
@@ -33,7 +33,7 @@
     </nav>
     <div class="scrolling-wrapper">
       <div class="row flex-nowrap mt-1">
-          <div v-for="(list,index) in Listnames" :key="index">
+          <div v-for="(list,index) in Listnames" :key="index" class="col-3 list-column list-width">
             <TodoList
                 :listname= list.listname
                 :indexlist = index
@@ -140,7 +140,7 @@ details.popup div {
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 *{
-  font-family: "Droid Sans";
+
   font-style: normal;
 }
 nav{
@@ -167,7 +167,8 @@ h2{
   border-radius: 0.2rem;
 }
 details {
-  display: block;
+  display: inline-block;
+
 }
 
 .flex-nowrap {
@@ -186,8 +187,14 @@ details {
 }
 h4, h5 {
   margin-bottom: 0.5rem;
-  font-weight: 500;
+  font-weight: 550;
   line-height: 1.2;
+  font-size: larger;
 }
-
+input {
+  width: 550px;
+  margin-bottom: 15px;
+  height: 35px;
+  font-size: medium;
+}
 </style>
