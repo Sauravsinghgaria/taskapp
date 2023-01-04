@@ -16,9 +16,9 @@
             </ul>
           </div>
         </details>
-        <details class="popup" style="" :open="myCondition ? 'true':'false or null'">
+        <details class="popup" >
           <summary>
-            <span class="nav-item btn btn-sm btn-app mr-2" @click=!this.myCondition>+ New List</span>
+            <span class="nav-item btn btn-sm btn-app mr-2">+ New List</span>
           </summary>
           <div>
             <form @submit.prevent>
@@ -59,7 +59,7 @@ export default {
       listname:null,
       Listnames:[],
       restore:[],
-      myCondition:false,
+
     }
   },
   methods:{
